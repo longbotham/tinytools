@@ -132,7 +132,7 @@ def filter(string_list,pattern_list,case_sensitive=None,ret_index=False):
     [seq]	matches any character in seq
     [!seq]	matches any character not in seq
 
-    Case sensitiveity can be explicitly determined.  If left blank, it uses
+    Case sensitivity can be explicitly determined.  If left blank, it uses
     the platform default.  This is useful when searching for files that may
     end in different cases - i.e. .TIF vs .tif when working between windows
     and linux.

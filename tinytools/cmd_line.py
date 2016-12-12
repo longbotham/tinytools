@@ -15,29 +15,39 @@ def is_tool(program):
     assert isinstance(program,str), "Input must be a string"
 
     if _sys.platform == "win32" and not program.endswith(".exe"):
+        _logger.debug('Setting windows exe extensions due to platform.')
         program += ".exe"
 
     fpath, fname = _os.path.split(program)
     # if fpath, then the tools has been given the full path to the command
     # to check, so it should directly check that location.
     if fpath:
+        _logger.debug('Checking full path that was passed in...')
         if _is_exe(program):
+            _logger.debug('Found tool using passed in path.')
             #return program
             return True
+        else:
+            _logger.debug('Did not find tool using pass in path.')
             
     # if no fpath, then is_tool was just given the name of the command, so
     # it should go check the PATH env and search for the tool.
     else:
+        _logger.debug('Using os.environ["PATH"] to check all possible paths.')
         for path in _os.environ["PATH"].split(_os.pathsep):
             path = path.strip('"')
             exe_file = _os.path.join(path, program)
             if _is_exe(exe_file):
+                _logger.debug('Found tool in PATH')
                 #return exe_file
                 return True
+            else:
+                _logger.debug('Did not find tool in PATH')
             
     # if this a platform with bash, the requested program might be an alias,
     # so call interactive bash and check to see if the program is there.
     if (_sys.platform == "linux2" or _sys.platform == "darwin"):
+        _logger.debug('Running tool check with subprocess.check_call')
         try:
             # .bashrc file needed for aliases and defualt subprocess is
             # not interactive (so .bashrc is not sourced).
@@ -68,7 +78,7 @@ def exec_cmd(cmd_in,shell=False,ret_output=False,**kwargs):
     input, output, and shell variables for the user with needing to know the
     vagaries of when subprocess will fail on different platforms. The input
     can be a string or a list of strings.  The function attempts to
-    restructure according to what should be cross-platform compatitble for
+    restructure according to what should be cross-platform compatible for
     the various combinations.
 
     Note that the string/list interpretation by the subprocess module is
