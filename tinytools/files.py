@@ -2,6 +2,7 @@ import os as _os
 import fnmatch as _fnmatch
 import numpy as _np
 import warnings as _warnings
+import csv as _csv
 
 def search(dir,search_strings,ret_relative_paths=False,depth=1,
               ret_files=True,ret_dirs=False,ret_hidden=False,
@@ -186,3 +187,76 @@ def filter(string_list,pattern_list,case_sensitive=None,ret_index=False):
         return list(_np.array(string_list)[out])
     else:
         return (list(_np.array(string_list)[out]),list(out))
+
+def _filter_list_values(x, none_values=None):
+    """Filter incoming values for the read_csv below.  It will convert
+    floats, ints, boolean, and None values to the python value.  The values
+    converted to None by default are '' and 'None'.  NaN values will be
+    converted for any string that passes correctly through float(x).
+    """
+    try:
+        x = int(x)
+    except ValueError:
+        try:
+            x = float(x)
+        except ValueError:
+            pass
+
+    try:
+        if x.lower() == 'true':
+            x = True
+    except AttributeError:
+        pass
+
+    try:
+        if x.lower() == 'false':
+            x = False
+    except AttributeError:
+        pass
+
+    if none_values == None:
+        pass
+    elif x in none_values:
+        x = None
+
+    return x
+
+def _clean_floats(c_values):
+    """The sole purpose of this routine is to catch the case where
+    _filter_list_values converts some values to int and some to float.
+    That specific case is worrisome since python can act 'unexpectedly'
+    with int math.
+    """
+
+    c_types = [type(x) for x in c_values]
+
+    if int and float in c_types:
+        c_values = [float(x) if isinstance(x,int) else x for x in c_values]
+
+    return c_values
+
+def read_csv(csv_path, none_values=['', 'None']):
+    """A very simple csv reader that coverts floats, ints, booleans, and None
+    values before passing back a dictionary with keys values equal to the
+    values of the first row of the csv.  Filtering of the string values read
+    is done with _filter_list_values above.  The values that are passed into
+    none_values are converted to python None.  By default converted values
+    are empty strings and 'None' strings.
+    """
+
+    with open(csv_path, mode='r') as infile:
+        reader = _csv.DictReader(infile)
+        initialized = False
+        for row in reader:
+            if not initialized:
+                d = {k: [v] for (k, v) in row.iteritems()}
+                initialized = True
+                continue
+            [d[k].append(v) for (k, v) in row.iteritems()]
+
+    # clean the resulting dictionary
+    for k in d.iterkeys():
+        d[k] = [_filter_list_values(x, none_values=none_values) for x in d[k]]
+        d[k] = _clean_floats(d[k])
+
+    return d
