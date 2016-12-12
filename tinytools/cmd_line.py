@@ -49,15 +49,20 @@ def is_tool(program):
     if (_sys.platform == "linux2" or _sys.platform == "darwin"):
         _logger.debug('Running tool check with subprocess.check_call')
         try:
-            # .bashrc file needed for aliases and defualt subprocess is
+            # .bashrc file needed for aliases and default subprocess is
             # not interactive (so .bashrc is not sourced).
-            _subprocess.check_call('if [ -f ~/.bashrc ]; '
-                                       'then source ~/.bashrc; '
-                                   'fi; '
-                                   'type '+program+' > /dev/null 2>&1',
-                                   shell=True)
-            #_subprocess.check_call(['/bin/bash','-i','-c',
-            #                        'type '+program+' > /dev/null 2>&1'])
+            # _subprocess.check_call('if [ -f ~/.bashrc ]; '
+            #                            'then source ~/.bashrc; '
+            #                        'fi; '
+            #                        'type '+program+' > /dev/null 2>&1',
+            #                        shell=True)
+
+            # Hard coding this to bash.  On ubuntu, sh links to dash
+            # which doesn't have source.  This is really just guessing as
+            # best it can to find bash aliases - so it makes since to just
+            # call bash.
+            _subprocess.check_call(['/bin/bash','-i','-c',
+                                   'type '+program+' > /dev/null 2>&1'])
             return True
         except Exception as e:
             #print e
