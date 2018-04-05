@@ -169,13 +169,16 @@ def ordered_unbunchify(x,out_type=0):
     """
     if isinstance(x,OrderedBunch):
         if out_type==0:
-            return _collections.OrderedDict( (k, ordered_unbunchify(v)) for k,v in x.iteritems() )
+            return _collections.OrderedDict((k, ordered_unbunchify(v)) for k,v in x.iteritems())
         elif out_type==1:
             return [(k, ordered_unbunchify(v,out_type=1)) for k,v in x.iteritems()]
         elif out_type==2:
             return [[k, ordered_unbunchify(v,out_type=2)] for k,v in x.iteritems()]
     else:
-        return x
+        try:
+            return [_collections.OrderedDict((k, ordered_unbunchify(v)) for k,v in xx.iteritems()) for xx in x]
+        except:
+            return x
 
 def print_recursive(x):
     """Formatted print of OrderedBunch objects or things that can be cast to one."""
