@@ -548,6 +548,31 @@ class TestBunch(unittest.TestCase):
         self.dicts4 = []
         self.dicts4.append(collections.OrderedDict({'a':[[[1,2],[3,4]]]}))
 
+        self.dicts5 = []
+        self.dicts5.append({'a':1, 'b':2, 'c':[{'aa':11, 'bb':22}, {'cc':33, 'dd':44}]})
+
+    def test_nested_list_of_dicts(self):
+        for li,lv in enumerate(self.dicts5):
+            din = self.dicts5[li]
+            ob = ordered_bunchify(din)
+
+            self.assertTrue(isinstance(ob['c'][0],OrderedBunch))
+
+    def test_unbunch_nested_list_of_dicts(self):
+        for li,lv in enumerate(self.dicts5):
+            din = self.dicts5[li]
+            ob = ordered_bunchify(din)
+            uob = ordered_unbunchify(ob)
+
+            print(din)
+            print(uob)
+
+            a = not isinstance(uob, OrderedBunch)
+            b = isinstance(uob['c'], list)
+            c = not isinstance(uob['c'][0], OrderedBunch)
+
+            self.assertTrue(a & b & c)
+
     def test_lists_of_list_length_one(self):
         for li,lv in enumerate(self.dicts4):
             din = self.dicts4[li]
