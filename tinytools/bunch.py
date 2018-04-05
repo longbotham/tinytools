@@ -125,7 +125,10 @@ def ordered_bunchify(x,level=0):
         #     if speak: print '*'*(level+1)+' exception raised, out is:  '+str(y)
         #     return y
     else:
-        return x
+        try:
+            return [OrderedBunch((k, ordered_bunchify(v)) for k,v in xx.iteritems()) for xx in x]
+        except:
+            return x
 
 def ordered_dictionarify(x,level=0):
     """Take a crack at parsing lists of lists or tuples of tuples into nested
