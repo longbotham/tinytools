@@ -550,6 +550,8 @@ class TestBunch(unittest.TestCase):
 
         self.dicts5 = []
         self.dicts5.append({'a':1, 'b':2, 'c':[{'aa':11, 'bb':22}, {'cc':33, 'dd':44}]})
+        self.dicts5.append({'a':1, 'b':2, 'c':[{'aa':11, 'bb':22}, {'cc':33, 'dd':44}, 555,
+                                               [{'anaother':'level'}, 123]]})
 
     def test_nested_list_of_dicts(self):
         for li,lv in enumerate(self.dicts5):
