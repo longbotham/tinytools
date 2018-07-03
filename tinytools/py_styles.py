@@ -2,7 +2,7 @@ import collections as _collections
 
 def _print_dict(d):
     for i in zip(d.keys(),d.values()):
-        print "%-18s : %s" % i
+        print("%-18s : %s" % i)
 
 def _create_my_dict_based_on_pep8():
     """This is what I've been coding to - it is based on the pep8 guidelines
@@ -92,12 +92,12 @@ def print_all_styles_to_screen():
 
     (dmine,dpep8,dgoogle) = _create_style_dicts()
 
-    print ''
-    print "### My Formatting ###"
+    print('')
+    print("### My Formatting ###")
     _print_dict(dmine)
-    print ''
-    print "### pep8 Formatting ###"
+    print('')
+    print("### pep8 Formatting ###")
     _print_dict(dpep8)
-    print ''
-    print "### Older formatting suggstion ###"
+    print('')
+    print("### Older formatting suggstion ###")
     _print_dict(dgoogle)

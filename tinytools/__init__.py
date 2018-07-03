@@ -1,12 +1,12 @@
-import pvl
-import class_csv
-import diskio
-import py_styles
-import bunch
-import pvl
-import np_img
-import files
-import cmd_line
+from . import pvl
+from . import class_csv
+from . import diskio
+from . import py_styles
+from . import bunch
+from . import pvl
+from . import np_img
+from . import files
+from . import cmd_line
 
 
 # Import version number

@@ -102,7 +102,7 @@ def ordered_bunchify(x,level=0):
     #     import ipdb; ipdb.set_trace()
 
     speak = False
-    if speak: print '*'*(level+1)+' x is:  '+str(x)
+    if speak: print('*'*(level+1)+' x is:  '+str(x))
     if isinstance(x, dict):
         return OrderedBunch((k, ordered_bunchify(v)) for k,v in x.iteritems())
 #    # elif isinstance(x, (list, tuple)):
@@ -132,14 +132,14 @@ def ordered_dictionarify(x,level=0):
     ordered dictionaries.  This can be coupled with ordered_bunchify to
     create nested ordered bunches from non-dictionary input."""
     speak = False
-    if speak: print '*' * (level + 1) + ' x is:  ' + str(x)
+    if speak: print('*' * (level + 1) + ' x is:  ' + str(x))
     if isinstance(x, dict):
         return _collections.OrderedDict((k, ordered_dictionarify(v)) for k, v in x.iteritems())
     elif isinstance(x, (list, tuple)):
         y = list(x)
         for i,v in enumerate(y):
             y[i] = ordered_dictionarify(y[i],level=level+1)
-        if speak: print '*'*(level+1)+' OrderedBunch request is:  '+repr(y)
+        if speak: print('*'*(level+1)+' OrderedBunch request is:  '+repr(y))
         try:
             out = _collections.OrderedDict(y)
             if isinstance(y[0],str):
@@ -153,10 +153,10 @@ def ordered_dictionarify(x,level=0):
                                  'strings as dictionary keys.  You should '
                                  'pass on the dictionarify function if that is'
                                  'really what you want.')
-            if speak: print '*'*(level+1)+ 'Bunchify worked, out is:  '+str(out)
+            if speak: print('*'*(level+1)+ 'Bunchify worked, out is:  '+str(out))
             return out
         except:
-            if speak: print '*'*(level+1)+' exception raised, out is:  '+str(y)
+            if speak: print('*'*(level+1)+' exception raised, out is:  '+str(y))
             return y
     else:
         return x
