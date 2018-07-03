@@ -213,7 +213,7 @@ def write_dict_to_pvl(fname,dict_in):
 def _conv_dict_to_pvl_strings(d,ntabs=-1):
     ntabs = ntabs+1
     slist = []
-    for k,v in d.iteritems():
+    for k,v in d.items():
         if isinstance(v,dict):
             slist.append('\t'*ntabs+'BEGIN_GROUP = '+k+'\n')
             slist.append(_conv_dict_to_pvl_strings(v,ntabs))
@@ -274,7 +274,7 @@ def replace_in_dict(dict,dkey,values):
 
 def _nested_dict_replace(d,key,values):
     """Iterate replace of values in instance of key in dictionary k."""
-    for k,v in d.iteritems():
+    for k,v in d.items():
         if k == key:
             try:
                 d[k] = values.popleft()

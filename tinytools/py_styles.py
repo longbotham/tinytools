@@ -1,7 +1,7 @@
 import collections as _collections
 
 def _print_dict(d):
-    for i in zip(d.keys(),d.values()):
+    for i in zip(list(d.keys()),list(d.values())):
         print("%-18s : %s" % i)
 
 def _create_my_dict_based_on_pep8():

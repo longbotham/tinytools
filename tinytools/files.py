@@ -249,13 +249,13 @@ def read_csv(csv_path, none_values=['', 'None']):
         initialized = False
         for row in reader:
             if not initialized:
-                d = {k: [v] for (k, v) in row.iteritems()}
+                d = {k: [v] for (k, v) in row.items()}
                 initialized = True
                 continue
-            [d[k].append(v) for (k, v) in row.iteritems()]
+            [d[k].append(v) for (k, v) in row.items()]
 
     # clean the resulting dictionary
-    for k in d.iterkeys():
+    for k in d.keys():
         d[k] = [_filter_list_values(x, none_values=none_values) for x in d[k]]
         d[k] = _clean_floats(d[k])
 

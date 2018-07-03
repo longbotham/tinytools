@@ -92,7 +92,7 @@ class OrderedBunch(_collections.OrderedDict):
     def __dir__(self):
         """ Overload the tab-complete operation so that it is easier to dynamically explore the bunch.
         """
-        return self.keys()
+        return list(self.keys())
 
 def ordered_bunchify(x,level=0):
     """ Recursively transforms a dictionary into a OrderedBunch via copy.
@@ -104,7 +104,7 @@ def ordered_bunchify(x,level=0):
     speak = False
     if speak: print('*'*(level+1)+' x is:  '+str(x))
     if isinstance(x, dict):
-        return OrderedBunch((k, ordered_bunchify(v)) for k,v in x.iteritems())
+        return OrderedBunch((k, ordered_bunchify(v)) for k,v in x.items())
 #    # elif isinstance(x, (list, tuple)):
         # y = list(x)
         # for i,v in enumerate(y):
@@ -134,7 +134,7 @@ def ordered_dictionarify(x,level=0):
     speak = False
     if speak: print('*' * (level + 1) + ' x is:  ' + str(x))
     if isinstance(x, dict):
-        return _collections.OrderedDict((k, ordered_dictionarify(v)) for k, v in x.iteritems())
+        return _collections.OrderedDict((k, ordered_dictionarify(v)) for k, v in x.items())
     elif isinstance(x, (list, tuple)):
         y = list(x)
         for i,v in enumerate(y):
@@ -147,8 +147,8 @@ def ordered_dictionarify(x,level=0):
                                  "(underneath OrderedBunch) broadcasts" \
                                  "a single key to mutiple dict entries.  See" \
                                  "unittests 'nested_bunches'.")
-            if any([isinstance(x,int) for x in out.keys()]) or \
-                any([isinstance(x,float) for x in out.keys()]):
+            if any([isinstance(x,int) for x in list(out.keys())]) or \
+                any([isinstance(x,float) for x in list(out.keys())]):
                 raise ValueError('This catches when using passing floats or '
                                  'strings as dictionary keys.  You should '
                                  'pass on the dictionarify function if that is'
@@ -166,11 +166,11 @@ def ordered_unbunchify(x,out_type=0):
     """
     if isinstance(x,OrderedBunch):
         if out_type==0:
-            return _collections.OrderedDict( (k, ordered_unbunchify(v)) for k,v in x.iteritems() )
+            return _collections.OrderedDict( (k, ordered_unbunchify(v)) for k,v in x.items() )
         elif out_type==1:
-            return [(k, ordered_unbunchify(v,out_type=1)) for k,v in x.iteritems()]
+            return [(k, ordered_unbunchify(v,out_type=1)) for k,v in x.items()]
         elif out_type==2:
-            return [[k, ordered_unbunchify(v,out_type=2)] for k,v in x.iteritems()]
+            return [[k, ordered_unbunchify(v,out_type=2)] for k,v in x.items()]
     else:
         return x
 
@@ -203,11 +203,11 @@ def _print_recursive_loop(ob,depth=0):
     if len(ob) == 0:
         return sss
     # Gen max length of labels to set prefix length
-    prelen = max([len(x) for x in ob.keys()])
+    prelen = max([len(x) for x in list(ob.keys())])
     depmarks = '-'*depth
     width_set = 80
 
-    for k,v in ob.iteritems():
+    for k,v in ob.items():
         prefix = depmarks + k + ' '*(prelen-len(k))+' : '
         wrapper = _textwrap.TextWrapper(initial_indent=prefix,
                                         width=width_set,
@@ -247,7 +247,7 @@ def _print_recursive_loop(ob,depth=0):
 def guess_dtype_convert_dict(x):
     """Guesses the type of the entries in a dictionary (recursive) and
     writes the guesses into the dictionary (no need to return a var)."""
-    for k,v in x.iteritems():
+    for k,v in x.items():
         if isinstance(v,dict):
             guess_dtype_convert_dict(v)
         else:
@@ -256,7 +256,7 @@ def guess_dtype_convert_dict(x):
 def guess_dtype_convert_var(x):
     """Guess at the type of a string and pass that type back."""
     # If the variable is not a string of some sort, then just return it.
-    if not isinstance(x,basestring):
+    if not isinstance(x,str):
         return x
     # If the string looks like a list of numbers, then chop it up and convert.
     # BE CAREFUL WITH THIS... THIS IS BEST SUITED TO HANDLE PVL TYPE FILES -

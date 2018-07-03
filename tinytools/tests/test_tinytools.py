@@ -306,7 +306,7 @@ class TestDiskIoTools(unittest.TestCase):
     test_disk_io_with_binaryfile_copy
     """
     def setUp(self):
-        print "Setting up:"
+        print("Setting up:")
         # Name of source/destination directories
         this_dir = os.path.dirname(os.path.realpath(__file__))
         self.source_loc = []
@@ -327,20 +327,20 @@ class TestDiskIoTools(unittest.TestCase):
         # Test if temp.bin files are already exist and, if so, remove
         for i in self.source_loc:
             tfile = os.path.join(i,"temp.bin")
-            if os.path.exists(tfile):  print "removing"; os.remove(tfile)
+            if os.path.exists(tfile):  print("removing"); os.remove(tfile)
         for i in self.dest_loc:
             tfile = os.path.join(i,"temp.bin")
-            if os.path.exists(tfile):  print "removing"; os.remove(tfile)
+            if os.path.exists(tfile):  print("removing"); os.remove(tfile)
 
     def tearDown(self):
-        print "Tearing down:"
+        print("Tearing down:")
         # Test if temp.bin files are already exist and, if so, remove
         for i in self.source_loc:
             tfile = os.path.join(i,"temp.bin")
-            if os.path.exists(tfile):  print "removing"; os.remove(tfile)
+            if os.path.exists(tfile):  print("removing"); os.remove(tfile)
         for i in self.dest_loc:
             tfile = os.path.join(i,"temp.bin")
-            if os.path.exists(tfile):  print "removing"; os.remove(tfile)
+            if os.path.exists(tfile):  print("removing"); os.remove(tfile)
 
         # Remove the source/destination directories
         for i in self.source_loc:
@@ -555,7 +555,7 @@ class TestBunch(unittest.TestCase):
             print(repr(ob))
 
             a = isinstance(ob,OrderedBunch)
-            b = isinstance(ob[ob.keys()[0]],list)
+            b = isinstance(ob[list(ob.keys())[0]],list)
 
             self.assertTrue(a & b)
 
@@ -566,8 +566,8 @@ class TestBunch(unittest.TestCase):
             print(repr(ob))
 
             a = isinstance(ob,OrderedBunch)
-            b = isinstance(ob[ob.keys()[1]],list)
-            c = ob.keys()[1] == din[1][0]
+            b = isinstance(ob[list(ob.keys())[1]],list)
+            c = list(ob.keys())[1] == din[1][0]
 
             self.assertTrue(a & b & c)
 
@@ -578,8 +578,8 @@ class TestBunch(unittest.TestCase):
             print(repr(ob))
 
             a = isinstance(ob,OrderedBunch)
-            b = isinstance(ob[ob.keys()[1]],OrderedBunch)
-            c = ob.keys()[1] == din[1][0]
+            b = isinstance(ob[list(ob.keys())[1]],OrderedBunch)
+            c = list(ob.keys())[1] == din[1][0]
 
             self.assertTrue(a & b & c)
 
@@ -625,7 +625,7 @@ class TestBunch(unittest.TestCase):
         self.assertTrue(a and b and c and d and e)
 
     def test_ordered_bunchify_dot_access(self):
-        for li in xrange(7):
+        for li in range(7):
             ob = ordered_bunchify(ordered_dictionarify(self.dicts[li]))
             print(repr(ob))
             a = ob.a=='one'
@@ -633,7 +633,7 @@ class TestBunch(unittest.TestCase):
             self.assertTrue(a and b)
 
     def test_ordered_bunchify_dot_assign(self):
-        for li in xrange(7):
+        for li in range(7):
             ob = ordered_bunchify(ordered_dictionarify(self.dicts[li]))
             print(repr(ob))
             ob.d='test'
@@ -646,8 +646,8 @@ class TestBunch(unittest.TestCase):
         oti = [0,1,2]
         otc1 = [collections.OrderedDict,list,list]
         otc2 = [tuple,tuple,list]
-        for li in xrange(7):
-            for x in xrange(len(oti)):
+        for li in range(7):
+            for x in range(len(oti)):
                 ob = ordered_bunchify(ordered_dictionarify(self.dicts[li]))
                 out = ordered_unbunchify(ob,out_type=oti[x])
                 print(repr(ob))
@@ -657,37 +657,37 @@ class TestBunch(unittest.TestCase):
                 print(otc2[x])
                 a = isinstance(out,otc1[x])
                 if x==0:
-                    b = isinstance(out.items()[0],otc2[x])
+                    b = isinstance(list(out.items())[0],otc2[x])
                 else:
                     b = isinstance(out[0],otc2[x])
                 self.assertTrue(a and b)
 
     def test_ob_print_recursive_dicts(self):
-        for x in xrange(7):
+        for x in range(7):
             d = self.dicts[x]
             self.assertTrue(len(tinytools.bunch._print_recursive_start(d).split('\n'))==6)
 
     def test_ob_print_recursive_ordered_bunch(self):
-        for x in xrange(7):
+        for x in range(7):
             ob = ordered_bunchify(ordered_dictionarify(self.dicts[x]))
             self.assertTrue(len(tinytools.bunch._print_recursive_start(ob).split('\n'))==6)
 
     def test_ob_print_recursive_ordered_unbunch_type0(self):
-        for x in xrange(7):
+        for x in range(7):
             d = self.dicts[x]
             ob = ordered_bunchify(ordered_dictionarify(self.dicts[x]))
             out = ordered_unbunchify(ob,out_type=0)
             self.assertTrue(len(tinytools.bunch._print_recursive_start(out).split('\n'))==6)
 
     def test_ob_print_recursive_ordered_unbunch_type1(self):
-        for x in xrange(7):
+        for x in range(7):
             d = self.dicts[x]
             ob = ordered_bunchify(ordered_dictionarify(self.dicts[x]))
             out = ordered_unbunchify(ob,out_type=1)
             self.assertTrue(len(tinytools.bunch._print_recursive_start(out).split('\n'))==6)
 
     def test_ob_print_recursive_ordered_unbunch_type2(self):
-        for x in xrange(7):
+        for x in range(7):
             d = self.dicts[x]
             ob = ordered_bunchify(ordered_dictionarify(self.dicts[x]))
             out = ordered_unbunchify(ob,out_type=2)
