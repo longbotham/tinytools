@@ -12,11 +12,11 @@ def move_first_col_to_last(fcsv):
     is overwritten.
     """
     # Read into table
-    with open(fcsv,"rb") as f:
+    with open(fcsv,"r") as f:
         reader = _csv.reader(f)
         table = [row for row in reader]
     # Cycle through table and write rows back with first column moved
-    with open(fcsv,"wb") as f:
+    with open(fcsv,"w") as f:
         writer = _csv.writer(f,lineterminator=_os.linesep)
         for row in table:
             writer.writerow(row[1:]+[row[0]])
