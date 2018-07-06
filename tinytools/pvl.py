@@ -52,7 +52,7 @@ def read_from_pvl(fname,param_in=None):
     param_in_vals = []
 
     # Open file and go to work
-    with open(fname,'rb') as f:
+    with open(fname,'r') as f:
         for l in f:
             ## Skip blank lines, strip extra spaces, and skip "END;" line
             l = l.strip()
@@ -98,7 +98,8 @@ def read_from_pvl(fname,param_in=None):
                     param = param.strip()
                     val = val.strip().strip(";")
                 except ValueError as e:
-                    if ("need more than 1 value to unpack" in e):
+                    if (("need more than 1 value to unpack" in str(e)) or
+                        ("not enough values to unpack" in str(e))):
                         if not cont_line:
                             raise SyntaxWarning('Line seems to be malformed.')
                         else:
@@ -131,7 +132,7 @@ def read_from_pvl(fname,param_in=None):
                         val_hold = val
                         continue
                 except ValueError as e:
-                    if ("need more than 1 value to unpack" in e):
+                    if ("not enough values to unpack" in str(e)):
                         if not cont_line:
                             raise SyntaxWarning('Line seems to be malformed.')
                         else:
