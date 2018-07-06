@@ -42,15 +42,19 @@ def test_with_binaryfile_copy(src,dest,fsize=100,ncopies=5):
             dest = repr(dest)[1:-1].replace("\\","/").replace("//","/")
 
     tf = "temp.bin"
-    if hasattr(src,'__iter__'):
+    if isinstance(src,str):
+        src = [_pp.join(*i) for i in _itertools.product([src],[tf])]
+    elif hasattr(src,'__iter__'):
         src = [_pp.join(*i) for i in _itertools.product(src,[tf])]
     else:
-        src = [_pp.join(*i) for i in _itertools.product([src],[tf])]
+        raise TypeError
 
-    if hasattr(dest,'__iter__'):
+    if isinstance(dest,str):
+        dest = [_pp.join(*i) for i in _itertools.product([dest],[tf])]
+    elif hasattr(src,'__iter__'):
         dest = [_pp.join(*i) for i in _itertools.product(dest,[tf])]
     else:
-        dest = [_pp.join(*i) for i in _itertools.product([dest],[tf])]
+        raise TypeError
 
     ### Start looping through tests
     for enu,i in enumerate(src):
