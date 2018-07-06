@@ -289,22 +289,22 @@ class TestCmdLineTools(unittest.TestCase):
     def test_exec_cmd_return_string_true(self):
         out = tinytools.cmd_line.exec_cmd(self.args_string_return,shell=True,
                                 ret_output=True)
-        self.assertEqual(out,"hi\n")
+        self.assertEqual(out,b'hi\n')
 
     def test_exec_cmd_return_string_false(self):
         out = tinytools.cmd_line.exec_cmd(self.args_string_return,shell=False,
                                 ret_output=True)
-        self.assertEqual(out,"hi\n")
+        self.assertEqual(out,b'hi\n')
 
     def test_exec_cmd_return_list_true(self):
         out = tinytools.cmd_line.exec_cmd(self.args_list_return,shell=True,
                                 ret_output=True)
-        self.assertEqual(out,"hi\n")
+        self.assertEqual(out,b'hi\n')
 
     def test_exec_cmd_return_list_false(self):
         out = tinytools.cmd_line.exec_cmd(self.args_list_return,shell=False,
                                 ret_output=True)
-        self.assertEqual(out,"hi\n")
+        self.assertEqual(out,b'hi\n')
 
 class TestDiskIoTools(unittest.TestCase):
     """Testing for:

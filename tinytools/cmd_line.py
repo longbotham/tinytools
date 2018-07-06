@@ -132,6 +132,6 @@ def exec_cmd(cmd_in,shell=False,ret_output=False,**kwargs):
     # Choose which subprocess to call based on desired return value
     if ret_output:
         out = _subprocess.check_output(cmd,shell=shell)
-        return out.decode()
+        return out
     else:
         _subprocess.check_call(cmd,shell=shell,**kwargs)
