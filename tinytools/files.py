@@ -140,12 +140,12 @@ def filter(string_list,pattern_list,case_sensitive=None,ret_index=False):
     """
 
     # If input isn't iterable (lists), make them into a list
-    if hasattr(pattern_list,'__iter__'):
+    if hasattr(pattern_list,'__iter__')and not isinstance(pattern_list,str):
         pass
     else:
         pattern_list = [pattern_list]
 
-    if hasattr(string_list,'__iter__'):
+    if hasattr(string_list,'__iter__') and not isinstance(string_list,str):
         pass
     else:
         string_list = [string_list]
